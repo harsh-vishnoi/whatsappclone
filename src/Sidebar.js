@@ -7,6 +7,8 @@ import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import ChatIcon from "@material-ui/icons/Chat";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
+import SideBarChat from './SideBarChat.js';
+
 function Sidebar(){
   return(
     <div className="sidebar">
@@ -33,7 +35,9 @@ function Sidebar(){
       </div>
 
       <div className="sidebar__chats">
-        <SidebarChat />
+        <SideBarChat addNewChat/>
+        <SideBarChat />
+        <SideBarChat />
       </div>
     </div>
   )

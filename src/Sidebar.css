@@ -45,3 +45,8 @@
   width: 100%;
   margin-left: 10px;
 }
+
+.sidebar__chats{
+  flex: 1;
+  overflow-y: scroll;
+}

@@ -6,11 +6,18 @@ import './Chat.css';
 
 function Chat(){
 
+  const [input, setInput] = useState("");
   const [seed, setSeed] = useState("");
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
+
+  const SendMessage = (e) => {
+    e.preventDefault();
+    // console.log(input);
+    setInput("");
+  }
 
   return (
     <div className="chat">
@@ -50,8 +57,13 @@ function Chat(){
       <div  className="chat__footer">
         <InsertEmoticon />
           <form>
-            <input placeholder="Type a message" type="text"/>
-            <button>Send a message</button>
+            <input value={input}
+                   onChange={e =>
+                   setInput(e.target.value)}
+                   placeholder="Type a message"
+                   type="text"
+            />
+            <button onClick={SendMessage} type="submit">Send a Message</button>
           </form>
         <Mic />
       </div>

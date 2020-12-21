@@ -3,7 +3,7 @@ import './SideBarChat.css';
 
 import { Avatar } from '@material-ui/core';
 
-function SideBarChat({ addNewChat }){
+function SideBarChat({ id, name, addNewChat }){
   const [seed, setSeed] = useState("");
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function SideBarChat({ addNewChat }){
 
       <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
       <div className="SideBarChat__info">
-        <h2>Room Name</h2>
+        <h2>{name}</h2>
         <p>Last Message ...</p>
       </div>
 

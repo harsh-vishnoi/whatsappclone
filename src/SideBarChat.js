@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './SideBarChat.css';
-
+import { Link } from "react-router-dom";
 import { Avatar } from '@material-ui/core';
 
 function SideBarChat({ id, name, addNewChat }){
@@ -19,7 +19,7 @@ function SideBarChat({ id, name, addNewChat }){
   };
 
   return !addNewChat ? (
-
+    <Link to={`/rooms/${id}`}>
     <div className="SideBarChat">
 
       <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
@@ -29,6 +29,7 @@ function SideBarChat({ id, name, addNewChat }){
       </div>
 
     </div>
+    </Link>
   ) : (
 
     <div onclick={createChat} className="SideBarChat">

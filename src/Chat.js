@@ -4,6 +4,8 @@ import { AttachFile, MoreVert, SearchOutlined, InsertEmoticon, Mic } from '@mate
 import { useParams } from "react-router-dom";
 import db from "./firebase";
 import './Chat.css';
+import firebase from "firebase";
+import { useStateValue } from './StateProvider';
 
 function Chat(){
 
@@ -12,6 +14,7 @@ function Chat(){
   const { roomID } = useParams();
   const [ roomName, setRoomName ] = useState("");
   const [ messages, setMessages ] = useState([]);
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     if(roomID){
@@ -37,6 +40,14 @@ function Chat(){
   const SendMessage = (e) => {
     e.preventDefault();
     // console.log(input);
+    db.collection('rooms')
+      .doc(roomID)
+      .collection('message').add({
+        message: input,
+        name: user.displayName,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+
     setInput("");
   }
 
@@ -66,7 +77,7 @@ function Chat(){
 
       <div className="chat__body">
         {messages.map((message) => (
-          <p className={`chat__message ${true && "chat__reciever"}`}>
+          <p className={`chat__message ${message.name === user.displayName && "chat__reciever"}`}>
 
             {message.message}
 

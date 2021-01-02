@@ -7,18 +7,27 @@ import './Chat.css';
 
 function Chat(){
 
-  const [input, setInput] = useState("");
-  const [seed, setSeed] = useState("");
+  const [ input, setInput] = useState("");
+  const [ seed, setSeed] = useState("");
   const { roomID } = useParams();
   const [ roomName, setRoomName ] = useState("");
+  const [ messages, setMessages ] = useState([]);
 
   useEffect(() => {
     if(roomID){
-      db.collection('rooms').doc(roomID).
-      onSnapshot(snapshot => {
-        setRoomName(snapshot.data().Name)
-      })
-    }
+      db.collection('rooms')
+        .doc(roomID)
+        .onSnapshot(snapshot => {
+          setRoomName(snapshot.data().Name)
+        })
+
+      db.collection('rooms')
+        .doc(roomID)
+        .collection('message').orderBy('timestamp', 'asc')
+        .onSnapshot(snapshot => {
+          setMessages(snapshot.docs.map((doc) => doc.data()))
+        })
+      }
   }, [roomID])
 
   useEffect(() => {
@@ -56,14 +65,16 @@ function Chat(){
       </div>
 
       <div className="chat__body">
-        <p className={`chat__message ${true && "chat__reciever"}`}>
+        {messages.map((message) => (
+          <p className={`chat__message ${true && "chat__reciever"}`}>
 
-          Hey Guys
+            {message.message}
 
-          <span className="chat__timestamp">
-            3:02
-          </span>
-        </p>
+            <span className="chat__timestamp">
+              {new Date(message.timestamp?.toDate()).toUTCString()}
+            </span>
+          </p>
+        ))}
       </div>
 
       <div  className="chat__footer">

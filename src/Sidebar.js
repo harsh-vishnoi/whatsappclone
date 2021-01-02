@@ -7,12 +7,14 @@ import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import ChatIcon from "@material-ui/icons/Chat";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
+import { useStateValue } from './StateProvider';
 import SideBarChat from './SideBarChat.js';
 import db from './firebase.js';
 
 function Sidebar(){
 
   const [rooms, setRooms] = useState([]);
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     db.collection('rooms').onSnapshot(snapshot => (
@@ -26,7 +28,7 @@ function Sidebar(){
   return(
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar />
+        <Avatar src={user?.photoURL}/>
         <div className="sidebar__headerRight">
           <IconButton>
             <DonutLargeIcon />
